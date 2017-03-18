@@ -1,0 +1,48 @@
+<div layout="column">
+    <div layout="row" layout-sm="column" style="margin-top: 160px;" flex="100" ng-if="!isPermintaanOpen">
+          <md-progress-circular flex md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div ng-if="isPermintaanOpen && listPermintaan[0] == null">
+      Tidak ada data permintaan alusista .
+    </div>
+
+    <div ng-if="listPermintaan[0] != null && isPermintaanOpen" layout="column"  class="chipsdemoContactChips tesss" >
+           <md-input-container md-no-float class="md-block">
+            <input ng-model="search" placeholder="Search">
+          </md-input-container>
+      
+             <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" style="width:100%;">
+            <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">No</th>
+              <th class="mdl-data-table__cell--non-numeric">Tanggal</th>
+              <th class="mdl-data-table__cell--non-numeric">Fungsi</th>
+              <th class="mdl-data-table__cell--non-numeric">Jenis</th>
+              <th class="mdl-data-table__cell--non-numeric">Jumlah</th>
+              <th class="mdl-data-table__cell--non-numeric">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="lista in listPermintaan | filter:search | orderBy : reverse:true" ng-click="opendetailprice($event,lista)" class="clickable" ng-class="{'notacc':lista.darurat,'onprocess':lista.status==1 && !lista.darurat}" ng-if="cekisThisRequest(lista.from)">
+              <td class="mdl-data-table__cell--non-numeric" ng-init="nmr = getNomor(0)">{{nmr}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{getDatebyTimeStamp(lista.time)}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{getFunctionById(lista.jenis.id_fungsi)}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{lista.jenis.namaJenis}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{lista.jumlah}}</td>
+              <td class="mdl-data-table__cell--non-numeric" >{{getStatus(lista.status)}}</td>
+            </tr>
+
+            </tbody>
+            </table>
+
+
+    </div>
+
+    <md-button class="md-primary md-fab md-fab-bottom-right" style="position:fixed;bottom:15px;right:15px;" ng-click="openPermintaanDialog($event)">
+            <md-tooltip md-direction="top">
+              minta permintaan logistik
+            </md-tooltip>
+            <md-icon class="material-icons white" aria-label="Close dialog" style="position: absolute;top: 16px;right: 16px;">add</md-icon>
+    </md-button>
+</div>
